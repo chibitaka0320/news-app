@@ -20,6 +20,21 @@ const WeatherListItem = ({ item }) => {
   const weatherMain = weather[0].main;
   const { temp_max, temp_min } = main;
 
+  const dateString = dt_txt;
+  const dateObj = new Date(dateString);
+
+  // 日付を mm/dd(曜日) hh:mm 形式にフォーマット
+  const options = {
+    month: "numeric",
+    day: "numeric",
+    weekday: "short",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: false, // 24時間制で表示する
+  };
+  const formatter = new Intl.DateTimeFormat("ja", options);
+  const formattedDate = formatter.format(dateObj);
+
   const iconWeather = (weatherMain) => {
     if (weatherMain === "Clear") {
       return "sunny-outline";
@@ -34,7 +49,7 @@ const WeatherListItem = ({ item }) => {
 
   return (
     <View style={styles.item}>
-      <Text style={styles.date}>{dt_txt.slice(5, 10)}</Text>
+      <Text style={styles.date}>{formattedDate}</Text>
       <Ionicons
         name={iconWeather(weatherMain)}
         size={35}
@@ -106,12 +121,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#eee",
+    borderBottomColor: "#111",
   },
   date: {
+    marginLeft: 10,
     fontSize: 18,
     fontWeight: "bold",
-    width: "25%",
+    width: "45%",
   },
   icon: {
     width: "25%",

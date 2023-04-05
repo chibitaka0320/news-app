@@ -1,20 +1,16 @@
 import React from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet, } from "react-native";
 import { TabNavigator } from "./src/Navigation/TabNavigator";
 
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from "@react-navigation/native";
+import { DrawerNavigator } from "./src/Navigation/DrawerNavigator"
 
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.container}>
-      <TabNavigator />
-    </SafeAreaView>
+    <NavigationContainer>
+      <DrawerNavigator />
+    </NavigationContainer>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#9FBFB9",
-  },
-})

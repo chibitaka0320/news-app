@@ -47,26 +47,25 @@ function BottomTabNavigator() {
 
 export const TabNavigator = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={BottomTabNavigator}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="Web" component={WebScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Home"
+        component={BottomTabNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen name="Web" component={WebScreen} />
+    </Stack.Navigator>
   );
 };
 
 const TopTabOptions = {
   tabBarStyle: {
-    backgroundColor: "#9FBFB9",
+    height: 40,
+    justifyContent: "center",
   },
   tabBarLabelStyle: {
-    fontWeight: "bold",
-    fontSize: 14,
+    fontSize: 12,
+    marginTop: -5,
   },
   tabBarIndicatorStyle: {
     backgroundColor: "#011C26",
