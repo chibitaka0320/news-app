@@ -1,8 +1,5 @@
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItem,
-} from "@react-navigation/drawer";
+import React, { useContext } from "react";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import {
   SafeAreaView,
   Button,
@@ -11,41 +8,72 @@ import {
   View,
   ScrollView,
   TouchableOpacity,
+  Image,
 } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 import { UserScreen } from "../screen/UserScreen";
+import { KeepingScreen } from "../screen/KeepingScreen";
 import { TabNavigator } from "./TabNavigator";
+import { UserContext } from "../context/UserContext";
 
 const Drawer = createDrawerNavigator();
 
 const DrawerContentScreen = ({ navigation }) => {
+  const { user, setUser } = useContext(UserContext);
+
   return (
     <SafeAreaView style={styles.drawerContent}>
       <View style={styles.menuHeader}>
-        <Text style={styles.menuHeaderTitle}>ヘッダー</Text>
+        <Image source={{ uri: user.Image }} style={styles.image} />
+        <View style={styles.textContainer}>
+          <Text style={styles.menuHeaderTitle}>{user.name}</Text>
+        </View>
       </View>
       <ScrollView contentContainerStyle={styles.menuContainer}>
-        <TouchableOpacity style={styles.menuButton}>
-          <Button
-            title="にゅーすあぷり"
-            onPress={() => {
-              navigation.navigate("Home");
-            }}
-          />
+        {/* ニュース */}
+        <TouchableOpacity
+          style={styles.menuButton}
+          onPress={() => {
+            navigation.navigate("News");
+          }}
+        >
+          <Ionicons name="newspaper-outline" size={25} />
+          <Text style={styles.text}>にゅーす</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuButton}>
-          <Button
-            title="アカウント設定"
-            onPress={() => {
-              navigation.navigate("User");
-            }}
-          />
+
+        {/* ユーザ設定 */}
+        <TouchableOpacity
+          style={styles.menuButton}
+          onPress={() => {
+            navigation.navigate("User");
+          }}
+        >
+          <Ionicons name="person-outline" size={25} />
+          <Text style={styles.text}>アカウント設定</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuButton}>
-          <Button title="天気予報" />
+
+        {/* 保存 */}
+        <TouchableOpacity
+          style={styles.menuButton}
+          onPress={() => {
+            navigation.navigate("Keep");
+          }}
+        >
+          <Ionicons name="attach-outline" size={25} />
+          <Text style={styles.text}>保存</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuButton}>
-          <Button title="ログアウト" />
+
+        {/* ログアウト */}
+        <TouchableOpacity
+          style={styles.menuButton}
+          onPress={() => {
+            setUser();
+            navigation.navigate("MainTop");
+          }}
+        >
+          <Ionicons name="log-out-outline" size={25} />
+          <Text style={styles.text}>ログアウト</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
@@ -56,31 +84,46 @@ export const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
       drawerContent={(props) => <DrawerContentScreen {...props} />}
-      screenOptions={{ headerStyle: styles.header }}
+      screenOptions={{ headerStyle: styles.header, headerTintColor: "white" }}
     >
       <Drawer.Screen
         name="Home"
         component={TabNavigator}
-        options={{ title: "にゅーすあぷり" }}
+        options={{
+          headerTitle: () => (
+            <Image
+              source={require("../image/logo_transparent.png")}
+              style={{ width: 200, height: 90 }}
+              resizeMode="contain"
+            />
+          ),
+        }}
       />
       <Drawer.Screen name="User" component={UserScreen} />
+      <Drawer.Screen name="Keep" component={KeepingScreen} />
     </Drawer.Navigator>
   );
 };
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: "#9FBFB9",
+    backgroundColor: "black",
+  },
+  image: {
+    height: 40,
+    width: 40,
+    borderRadius: 50,
+    marginHorizontal: 15,
   },
   menuHeader: {
-    height: 60,
+    height: 80,
     alignItems: "center",
-    justifyContent: "center",
     borderBottomWidth: 0.4,
+    flexDirection: "row",
   },
   menuHeaderTitle: {
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 16,
   },
   drawerContent: {
     height: "100%",
@@ -88,8 +131,17 @@ const styles = StyleSheet.create({
   menuContainer: {
     alignItems: "flex-start",
     marginLeft: 10,
+    marginTop: 10,
   },
   menuButton: {
     marginVertical: 10,
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    marginLeft: 15,
+    fontSize: 16,
   },
 });

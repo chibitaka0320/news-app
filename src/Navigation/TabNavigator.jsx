@@ -1,7 +1,6 @@
 import React from "react";
 
 // navigator
-import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -10,7 +9,6 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { BusinessScreen } from "../screen/BusinessScreen";
 import { SportsScreen } from "../screen/SportsScreen";
 import { WeatherScreen } from "../screen/WeatherScreen";
-import { WebScreen } from "../screen/WebScreen";
 
 // icon
 import { Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -28,7 +26,7 @@ function TopTabNavigator() {
   );
 }
 
-function BottomTabNavigator() {
+export const TabNavigator = () => {
   return (
     <BottomTab.Navigator screenOptions={BottomTabOptions}>
       <BottomTab.Screen
@@ -42,19 +40,6 @@ function BottomTabNavigator() {
         options={BottomWeather}
       />
     </BottomTab.Navigator>
-  );
-}
-
-export const TabNavigator = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Home"
-        component={BottomTabNavigator}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen name="Web" component={WebScreen} />
-    </Stack.Navigator>
   );
 };
 
@@ -74,9 +59,9 @@ const TopTabOptions = {
 
 const BottomTabOptions = {
   tabBarStyle: {
-    backgroundColor: "#9FBFB9",
+    backgroundColor: "black",
   },
-  tabBarActiveTintColor: "#011C26",
+  tabBarActiveTintColor: "white",
   tabBarIconStyle: {
     marginTop: 5,
   },
