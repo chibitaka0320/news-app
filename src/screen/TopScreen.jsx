@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, SafeAreaView, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { TopNavigator } from "../Navigation/TopNavigator";
 
 import { NavigationContainer } from "@react-navigation/native";

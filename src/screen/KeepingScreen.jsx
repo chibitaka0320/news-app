@@ -23,6 +23,7 @@ export const KeepingScreen = ({ navigation }) => {
   return (
     <SafeAreaView>
       <FlatList
+        style={styles.container}
         data={news}
         renderItem={({ item }) => (
           <NewsList

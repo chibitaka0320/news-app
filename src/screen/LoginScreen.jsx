@@ -6,7 +6,6 @@ import { Button } from "../component/Button";
 // fireabse
 import { loginGoogle } from "../lib/firebase";
 // icon
-import Ionicons from "@expo/vector-icons/Ionicons";
 
 export const LoginScreen = ({ navigation }) => {
   return (

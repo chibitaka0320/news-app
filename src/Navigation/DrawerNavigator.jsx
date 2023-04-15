@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import {
   SafeAreaView,
-  Button,
   StyleSheet,
   Text,
   View,

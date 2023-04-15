@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 
 //navigator
-import { NavigationContainer } from "@react-navigation/native";
-import { DrawerNavigator } from "./src/Navigation/DrawerNavigator";
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 // screen
 import { TopScreen } from "./src/screen/TopScreen";
 // contect
@@ -13,14 +12,11 @@ export default function App() {
   const [user, setUser] = useState();
 
   return (
-
     <UserContext.Provider value={{ user, setUser }}>
-      <TopScreen />
+      <ActionSheetProvider>
+        <TopScreen />
+      </ActionSheetProvider>
     </UserContext.Provider>
-
-    // <NavigationContainer>
-    //   <DrawerNavigator />
-    // </NavigationContainer>
   )
 }
 

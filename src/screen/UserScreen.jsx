@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
+import { useActionSheet } from "@expo/react-native-action-sheet";
+
 // firebase
 import { getUser, updateUser, uploadImage } from "../lib/firebase";
 // context
@@ -20,40 +22,71 @@ import { Loading } from "../component/Loading";
 
 export const UserScreen = () => {
   const { user, setUser } = useContext(UserContext);
-  const [imageUri, setImageUri] = useState(user.Image);
-  const [name, setName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
-  const [phone, setPhone] = useState(user.phone);
-  const [birthDate, setBirthDate] = useState(user.birthDate);
+  const [imageUri, setImageUri] = useState(user?.Image ?? "");
+  const [name, setName] = useState(user?.name ?? "");
+  const [email, setEmail] = useState(user?.email ?? "");
+  const [phone, setPhone] = useState(user?.phone ?? "");
+  const [birthDate, setBirthDate] = useState(user?.birthDate ?? "");
   const [loading, setLoading] = useState(false);
 
-  const selectImage = async () => {
+  const setImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
     });
     if (!result.canceled) {
-      setImageUri(result.assets[0].uri);
+      const imageUrl = result.assets[0].uri;
+      setImageUri(imageUrl);
+      const ext = imageUrl.split(".").pop();
+      const storagePath = `UserImage/${user.id}.${ext}`;
+      const downloadUrl = await uploadImage(imageUrl, storagePath);
+      console.log(downloadUrl);
+      const updateInfo = {
+        Image: downloadUrl,
+      };
+      await updateUser(user.id, updateInfo);
+      console.log("finish");
     }
+  };
+
+  const { showActionSheetWithOptions } = useActionSheet();
+
+  const selectImage = () => {
+    const options = ["フォトライブラリから選択", "カメラ撮影", "キャンセル"];
+    const cancelButtonIndex = 2;
+
+    showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+      },
+      (selectedIndex) => {
+        switch (selectedIndex) {
+          case 0:
+            setImage();
+            break;
+
+          case 1:
+            // Delete
+            break;
+
+          case cancelButtonIndex:
+          // Canceled
+        }
+      }
+    );
   };
 
   const onPress = async () => {
     setLoading(true);
     try {
-      let downloadUrl;
-      if (imageUri && imageUri !== "") {
-        const ext = imageUri.split(".").pop();
-        const storagePath = `UserImage/${user.id}.${ext}`;
-        downloadUrl = await uploadImage(imageUri, storagePath);
-      } else {
-        downloadUrl = user.Image;
-      }
       const updateInfo = {
         name: name,
         email: email,
         phone: phone,
         birthDate: birthDate,
-        Image: downloadUrl,
       };
       await updateUser(user.id, updateInfo);
       const updatedUser = await getUser(user.id);

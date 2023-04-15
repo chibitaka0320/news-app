@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import Constants from 'expo-constants';
 
 // 認証
 import {
@@ -27,16 +28,7 @@ import {
 // ストレージ
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBoneHQJz2fD3E4aPLADdB0PntItLapGkU",
-    authDomain: "news-app-6c7e1.firebaseapp.com",
-    projectId: "news-app-6c7e1",
-    storageBucket: "news-app-6c7e1.appspot.com",
-    messagingSenderId: "175900141838",
-    appId: "1:175900141838:web:830e3b19c3e4854a04cf5f",
-    measurementId: "G-THLKFGE3L0",
-    storageBucket: "news-app-6c7e1.appspot.com"
-};
+const firebaseConfig = Constants.manifest.extra.firebase;
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
