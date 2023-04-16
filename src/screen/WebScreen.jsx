@@ -1,15 +1,23 @@
 import { useContext, useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import {
+  StyleSheet,
+  SafeAreaView,
+  Text,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import { WebView } from "react-native-webview";
 import { ClipButton } from "../component/ClipButton";
 import { UserContext } from "../context/UserContext";
 import { keepCheck, keepArticle, deleteArticle } from "../lib/firebase";
+import { useIsFocused } from "@react-navigation/native";
 
 export const WebScreen = ({ route }) => {
   const { user } = useContext(UserContext);
   const [keeping, setKeeping] = useState(false);
   const { articles } = route.params;
   const [articleId, setArticleId] = useState("");
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     const enabledCheck = async () => {
@@ -20,7 +28,7 @@ export const WebScreen = ({ route }) => {
       }
     };
     enabledCheck();
-  }, []);
+  }, [isFocused]);
 
   const onPress = async () => {
     const article = {
@@ -37,17 +45,17 @@ export const WebScreen = ({ route }) => {
       await keepArticle(user.id, article);
       setKeeping(true);
     }
-    // await keepArticle(user.id, article);
   };
 
   return (
     <View style={styles.container}>
-      <ClipButton onPress={onPress} enabled={keeping} />
       <WebView
         source={{ uri: articles.url }}
         mediaPlaybackRequiresUserAction={true}
         useWebKit={true}
+        style={styles.webView}
       />
+      <ClipButton onPress={onPress} enabled={keeping} />
     </View>
   );
 };
@@ -55,5 +63,24 @@ export const WebScreen = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  webView: {
+    flex: 1,
+  },
+  textContainer: {
+    position: "absolute",
+    alignSelf: "center",
+    bottom: 15,
+    backgroundColor: "black",
+    borderRadius: 50,
+    width: "90%",
+    height: 60,
+    justifyContent: "center",
+  },
+  text: {
+    fontSize: 16,
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });

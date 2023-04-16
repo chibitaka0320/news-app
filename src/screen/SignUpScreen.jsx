@@ -12,14 +12,14 @@ export const SignUpScreen = ({ navigation }) => {
         paddingHorizontal: 20,
       }}
     >
-      <Button
+      {/* <Button
         text="Googleで登録"
         image="/Users/takahiro/news-app/my-news/src/image/icons8-google.png"
       />
       <Button text="Facebookで登録" />
       <Button text="Twitterで登録" />
       <Button text="Linkedlnで登録" />
-      <Button text="ビジネスdアカウントで登録" />
+      <Button text="ビジネスdアカウントで登録" /> */}
       <Button
         image="/Users/takahiro/news-app/my-news/src/image/icons8-email.png"
         text="メールアドレスで登録"

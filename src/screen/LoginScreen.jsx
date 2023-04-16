@@ -17,12 +17,13 @@ export const LoginScreen = ({ navigation }) => {
         paddingHorizontal: 20,
       }}
     >
-      <Button text="Googleでログイン" onPress={loginGoogle} />
+      {/* <Button text="Googleでログイン" onPress={loginGoogle} />
       <Button text="Facebookでログイン" />
       <Button text="Twitterでログイン" />
       <Button text="Linkedlnでログイン" />
-      <Button text="ビジネスdアカウントでログイン" />
+      <Button text="ビジネスdアカウントでログイン" /> */}
       <Button
+        image="/Users/takahiro/news-app/my-news/src/image/icons8-email.png"
         text="メールアドレスでログイン"
         onPress={() => navigation.navigate("loginMail")}
       />

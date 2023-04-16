@@ -11,7 +11,7 @@ import {
 import { useActionSheet } from "@expo/react-native-action-sheet";
 
 // firebase
-import { getUser, updateUser, uploadImage } from "../lib/firebase";
+import { getUser, updateUser, uploadImage, delImage } from "../lib/firebase";
 // context
 import { UserContext } from "../context/UserContext";
 // imagePicker
@@ -29,6 +29,8 @@ export const UserScreen = () => {
   const [birthDate, setBirthDate] = useState(user?.birthDate ?? "");
   const [loading, setLoading] = useState(false);
 
+  const storagePath = `UserImage/${user.id}.img`;
+
   const setImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -39,8 +41,6 @@ export const UserScreen = () => {
     if (!result.canceled) {
       const imageUrl = result.assets[0].uri;
       setImageUri(imageUrl);
-      const ext = imageUrl.split(".").pop();
-      const storagePath = `UserImage/${user.id}.${ext}`;
       const downloadUrl = await uploadImage(imageUrl, storagePath);
       console.log(downloadUrl);
       const updateInfo = {
@@ -51,16 +51,32 @@ export const UserScreen = () => {
     }
   };
 
+  const deleteImage = async () => {
+    setImageUri("");
+    const updateInfo = {
+      Image: null,
+    };
+    await updateUser(user.id, updateInfo);
+    await delImage(storagePath);
+  };
+
   const { showActionSheetWithOptions } = useActionSheet();
 
   const selectImage = () => {
     const options = ["フォトライブラリから選択", "カメラ撮影", "キャンセル"];
     const cancelButtonIndex = 2;
+    let destructiveButtonIndex = null;
+
+    if (imageUri) {
+      options.splice(2, 0, "プロフィール画像を削除");
+      destructiveButtonIndex = 2;
+    }
 
     showActionSheetWithOptions(
       {
         options,
         cancelButtonIndex,
+        destructiveButtonIndex,
       },
       (selectedIndex) => {
         switch (selectedIndex) {
@@ -68,8 +84,8 @@ export const UserScreen = () => {
             setImage();
             break;
 
-          case 1:
-            // Delete
+          case destructiveButtonIndex:
+            deleteImage();
             break;
 
           case cancelButtonIndex:
@@ -113,7 +129,9 @@ export const UserScreen = () => {
         <TouchableOpacity onPress={selectImage}>
           <Image
             source={{
-              uri: imageUri,
+              uri:
+                imageUri ||
+                "https://firebasestorage.googleapis.com/v0/b/news-app-6c7e1.appspot.com/o/UserImage%2FnoneImage%2FnoneImage.png?alt=media&token=540104db-8998-492c-9cca-3bd612ecc5c9",
             }}
             style={styles.image}
           />

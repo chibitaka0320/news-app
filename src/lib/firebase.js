@@ -26,7 +26,7 @@ import {
 } from "firebase/firestore";
 
 // ストレージ
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
 const firebaseConfig = Constants.manifest.extra.firebase;
 
@@ -44,7 +44,7 @@ export const signupUser = async (email, password) => {
             const userInfo = {
                 name: "未設定ユーザ",
                 email: user.email,
-                Image: "https://firebasestorage.googleapis.com/v0/b/news-app-6c7e1.appspot.com/o/UserImage%2FnoneImage%2FnoneImage.png?alt=media&token=540104db-8998-492c-9cca-3bd612ecc5c9",
+                Image: null,
                 phone: "",
                 birthDate: "",
             }
@@ -96,6 +96,12 @@ export const uploadImage = async (uri, path) => {
         console.log(err);
     }
     return downloadUrl;
+}
+
+// 画像削除
+export const delImage = async (storagePath) => {
+    const storageRef = ref(storage, storagePath);
+    await deleteObject(storageRef);
 }
 
 // ユーザー情報更新

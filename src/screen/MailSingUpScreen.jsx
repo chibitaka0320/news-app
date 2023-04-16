@@ -12,7 +12,7 @@ import { UserContext } from "../context/UserContext";
 import { Loading } from "../component/Loading";
 
 export const MailSignUpScreen = ({ navigation }) => {
-  const [email, setEmail] = useState("taka.araat34@gmail.com");
+  const [email, setEmail] = useState("taka.araat33@gmail.com");
   const [pass, setPass] = useState("Ta110320");
   const [loading, setLoading] = useState(false);
 
