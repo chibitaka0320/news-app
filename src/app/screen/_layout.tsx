@@ -18,9 +18,10 @@ const Layout = (): JSX.Element => {
           }}
         />
         <Tabs.Screen
-          name="clip"
+          name="(clip)"
           options={{
             title: "クリップ",
+            headerShown: false,
             tabBarIcon: ({ color, size }) => (
               <FontAwesome name="bookmark" size={size} color={color} />
             ),

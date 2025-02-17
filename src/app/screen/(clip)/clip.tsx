@@ -1,7 +1,7 @@
 import { FlatList, SafeAreaView, Text } from "react-native";
 import { useSelector } from "react-redux";
-import { Article } from "../../types/article";
-import { ListItem } from "../../components/ListItem";
+import { Article } from "../../../types/article";
+import { ListItem } from "../../../components/ListItem";
 import { router } from "expo-router";
 
 const Clip = (): JSX.Element => {
