@@ -1,4 +1,4 @@
-import { View, StyleSheet, Image, Text } from "react-native";
+import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
 
 type Props = {
   imageUrl: string;
@@ -14,7 +14,7 @@ export const ListItem = ({
   onPress,
 }: Props): JSX.Element => {
   return (
-    <View style={styles.itemContainer}>
+    <TouchableOpacity style={styles.itemContainer} onPress={onPress}>
       <View style={styles.leftContainer}>
         <Image style={{ width: 100, height: 100 }} source={{ uri: imageUrl }} />
       </View>
@@ -24,7 +24,7 @@ export const ListItem = ({
         </Text>
         <Text style={styles.subText}>{author}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
